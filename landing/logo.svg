@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="60" height="60" rx="12" fill="#6C63FF"/>
+  <path d="M17 20H43M17 30H43M17 40H43" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="30" cy="20" r="4" fill="#FFD166"/>
+  <circle cx="25" cy="30" r="4" fill="#06D6A0"/>
+  <circle cx="35" cy="40" r="4" fill="#EF476F"/>
+  <text x="70" y="35" font-family="Arial, sans-serif" font-weight="bold" font-size="20" fill="#333333">FHE Book</text>
+</svg>

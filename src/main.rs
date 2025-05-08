@@ -2,7 +2,9 @@ use axum::{
     routing::{get, post},
     extract::{State, Json},
     Router,
+    http::{HeaderValue, Method},
 };
+use tower_http::cors::{CorsLayer, Any};
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
 use serde::{Deserialize, Serialize};
@@ -35,6 +37,12 @@ async fn main() {
 
     let app_state = Arc::new(Mutex::new(orderbook));
 
+    // Set up CORS
+    let cors = CorsLayer::new()
+        .allow_origin(Any)
+        .allow_methods([Method::GET, Method::POST, Method::OPTIONS])
+        .allow_headers(Any);
+
     let app = Router::new()
         // Order management
         .route("/orders", get(get_orders))
@@ -50,7 +58,8 @@ async fn main() {
         .route("/config", get(get_config))
         .route("/config", post(update_config))
         
-        .with_state(app_state);
+        .with_state(app_state)
+        .layer(cors);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     println!("Server listening on {}", addr);

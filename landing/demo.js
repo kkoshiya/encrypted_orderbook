@@ -1,7 +1,26 @@
 // Demo JavaScript for interacting with the encrypted orderbook API
 document.addEventListener('DOMContentLoaded', function() {
-    // API endpoint
-    const API_URL = 'http://localhost:3000';
+    // API endpoint - use relative URL to avoid CORS issues in the preview
+    const API_URL = '/api';
+    
+    // For demo purposes, we'll simulate API responses if the server isn't available
+    const DEMO_MODE = true;
+    
+    // Demo data for simulation
+    const demoData = {
+        config: { use_encryption: true },
+        buyOrders: [
+            { id: 1, price: 100, quantity: 5, user_pubkey: 'user1', is_encrypted: true },
+            { id: 3, price: 95, quantity: 3, user_pubkey: 'user2', is_encrypted: true }
+        ],
+        sellOrders: [
+            { id: 2, price: 105, quantity: 8, user_pubkey: 'user3', is_encrypted: true },
+            { id: 4, price: 110, quantity: 2, user_pubkey: 'user4', is_encrypted: true }
+        ],
+        fills: [
+            { buy_order_id: 1, sell_order_id: 2, price: 105, quantity: 3, buyer_pubkey: 'user1', seller_pubkey: 'user3' }
+        ]
+    };
     
     // DOM elements
     const orderTypeSelect = document.getElementById('order-type');
@@ -49,29 +68,21 @@ document.addEventListener('DOMContentLoaded', function() {
     toggleEncryptionBtn.addEventListener('click', function() {
         const newState = this.textContent.includes('Disable') ? false : true;
         
-        fetch(`${API_URL}/config`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                use_encryption: newState
+        apiRequest('/config', 'POST', { use_encryption: newState })
+            .then(data => {
+                if (data.success) {
+                    loadConfig();
+                    loadOrders();
+                    alert(data.message);
+                } else {
+                    alert(`Error: ${data.error}`);
+                }
             })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                loadConfig();
-                loadOrders();
-                alert(data.message);
-            } else {
-                alert(`Error: ${data.error}`);
-            }
-        })
-        .catch(error => {
-            console.error('Error toggling encryption:', error);
-            alert('Failed to toggle encryption. See console for details.');
-        });
+            .catch(error => {
+                console.error('Error toggling encryption:', error);
+                alert('Failed to toggle encryption. See console for details.');
+            });
+    });
     });
     
     // Load orders

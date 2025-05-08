@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encrypted Orderbook for Solana | FHE-Powered Trading</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="demo-styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -224,6 +225,29 @@
                         <button id="submit-market-order" class="submit-button">Place Market Order</button>
                     </div>
                 </div>
+                
+                <div class="elizaos-section">
+                    <h3>ElizaOS Integration</h3>
+                    <div class="chat-container">
+                        <div id="chat-messages" class="chat-messages">
+                            <div class="message bot-message">Hello! I'm ElizaOS. I can help you interact with the encrypted orderbook using natural language. Try asking me to place an order or check the orderbook status.</div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" id="user-input" placeholder="Type your message here...">
+                            <button id="send-message">Send</button>
+                        </div>
+                    </div>
+                    <div class="sample-commands">
+                        <h4>Try these commands:</h4>
+                        <div class="command-buttons">
+                            <div class="command-button">Place a buy order for 5 units at price 100</div>
+                            <div class="command-button">Show me the current orderbook</div>
+                            <div class="command-button">Place a market sell order for 3 units</div>
+                            <div class="command-button">Show recent fills</div>
+                            <div class="command-button">Enable encryption</div>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="orderbook-display">
@@ -296,5 +320,6 @@
 
     <script src="script.js"></script>
     <script src="demo.js"></script>
+    <script src="elizaos-demo.js"></script>
 </body>
 </html>

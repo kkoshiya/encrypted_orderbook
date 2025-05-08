@@ -108,6 +108,66 @@ nav ul li a:hover {
   gap: 4rem;
 }
 
+.demo-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+@media (min-width: 992px) {
+  .demo-container {
+    flex-direction: row;
+    align-items: stretch;
+  }
+}
+
+.demo-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.config-panel, .order-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.config-panel:hover, .order-panel:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.config-panel h3, .order-panel h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #fff;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.config-panel h3:after, .order-panel h3:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #6c63ff, #ff6584);
+  border-radius: 3px;
+}
+
 .hero-content {
   flex: 1;
 }
@@ -451,13 +511,28 @@ nav ul li a:hover {
 
 /* Demo Section */
 .demo {
-  background-color: #F3F4F6;
-  padding: 6rem 2rem;
+  background: #F8F9FA;
+  padding: 80px 0;
+  color: #333;
+  position: relative;
+  overflow: hidden;
+  border-top: 5px solid #FFD166;
+  border-bottom: 5px solid #06D6A0;
+}
+
+.demo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MCIgaGVpZ2h0PSI3NjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBmaWxsPSIjMkQzNzQ4IiBkPSJNMCAwaDEwMHYxMDBIMHoiLz48Y2lyY2xlIHN0cm9rZT0iIzZDNjNGRiIgc3Ryb2tlLXdpZHRoPSIuNSIgY3g9IjUwIiBjeT0iNTAiIHI9IjQwIi8+PC9nPjwvc3ZnPg==');
+  opacity: 0.05;
+  z-index: 0;
 }
 
 .demo h2 {
-  text-align: center;
-  font-size: 2.5rem;
   margin-bottom: 3rem;
   position: relative;
 }
