@@ -1,5 +1,5 @@
 use tfhe::prelude::*;
-use tfhe::{FheUint32, ServerKey, ClientKey, CompressedCiphertextListBuilder};
+use tfhe::{FheUint32, ServerKey, ClientKey, set_server_key};
 use std::sync::Arc;
 use once_cell::sync::OnceCell;
 use crate::utils::generate_key;
@@ -30,23 +30,14 @@ pub fn get_server_key() -> Arc<ServerKey> {
 pub fn encrypt_u32(value: u32, client_key: &ClientKey) -> Vec<u8> {
     let encrypted = FheUint32::encrypt(value, client_key);
     
-    let compressed = CompressedCiphertextListBuilder::new()
-        .push(encrypted)
-        .build()
-        .expect("Failed to compress ciphertext");
-    
-    bincode::serialize(&compressed).expect("Failed to serialize ciphertext")
+    // Serialize the encrypted value directly
+    bincode::serialize(&encrypted).expect("Failed to serialize ciphertext")
 }
 
 // Decrypt a u32 value using FHE
 pub fn decrypt_u32(encrypted_bytes: &[u8], client_key: &ClientKey) -> u32 {
-    let compressed = bincode::deserialize(encrypted_bytes)
+    let encrypted: FheUint32 = bincode::deserialize(encrypted_bytes)
         .expect("Failed to deserialize ciphertext");
-    
-    let encrypted: FheUint32 = compressed.decompress()
-        .expect("Failed to decompress ciphertext")
-        .get(0)
-        .expect("No ciphertext in list");
     
     encrypted.decrypt(client_key)
 }
@@ -81,18 +72,8 @@ pub fn compare_prices(price1: &[u8], price2: &[u8]) -> bool {
     let server_key = get_server_key();
     set_server_key((*server_key).clone());
     
-    let compressed1 = bincode::deserialize(price1).expect("Failed to deserialize price1");
-    let compressed2 = bincode::deserialize(price2).expect("Failed to deserialize price2");
-    
-    let price1: FheUint32 = compressed1.decompress()
-        .expect("Failed to decompress price1")
-        .get(0)
-        .expect("No ciphertext in list");
-    
-    let price2: FheUint32 = compressed2.decompress()
-        .expect("Failed to decompress price2")
-        .get(0)
-        .expect("No ciphertext in list");
+    let price1: FheUint32 = bincode::deserialize(price1).expect("Failed to deserialize price1");
+    let price2: FheUint32 = bincode::deserialize(price2).expect("Failed to deserialize price2");
     
     // For buy orders, we want price1 >= price2
     // For sell orders, we want price1 <= price2

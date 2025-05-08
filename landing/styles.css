@@ -474,14 +474,6 @@ nav ul li a:hover {
   border-radius: 2px;
 }
 
-.demo-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  gap: 4rem;
-  align-items: center;
-}
-
 .demo-info {
   flex: 1;
 }

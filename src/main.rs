@@ -13,7 +13,7 @@ use utils::orders::{Order, Side};
 use utils::fhe_operations;
 mod api;
 use api::orders::{get_orders, add_order, market_buy, market_sell, get_fills, generate_keys};
-use api::types::OrderbookConfig;
+use api::config::{get_config, update_config};
 type AppState = Arc<Mutex<Orderbook>>;
 
 #[tokio::main]
@@ -30,7 +30,7 @@ async fn main() {
         Orderbook::new_encrypted()
     } else {
         println!("Using plaintext orderbook (FHE keys not found)");
-        Orderbook::new()
+        Orderbook::new(None)
     };
 
     let app_state = Arc::new(Mutex::new(orderbook));
@@ -60,44 +60,4 @@ async fn main() {
     ).await.unwrap();
 }
 
-// Get current orderbook configuration
-async fn get_config(state: State<AppState>) -> Json<OrderbookConfig> {
-    let orderbook = state.lock().unwrap();
-    Json(OrderbookConfig {
-        use_encryption: orderbook.use_encryption,
-    })
-}
 
-// Update orderbook configuration
-async fn update_config(
-    state: State<AppState>,
-    Json(config): Json<OrderbookConfig>,
-) -> impl IntoResponse {
-    let mut orderbook = state.lock().unwrap();
-    
-    // If switching to encryption, make sure keys exist
-    if config.use_encryption && !orderbook.use_encryption {
-        if !utils::generate_key::keys_exist() {
-            return Json(serde_json::json!({
-                "success": false,
-                "error": "Cannot enable encryption: FHE keys not found. Generate keys first."
-            }));
-        }
-        
-        // Initialize FHE system
-        if let Err(e) = fhe_operations::init_fhe() {
-            return Json(serde_json::json!({
-                "success": false,
-                "error": format!("Failed to initialize FHE system: {}", e)
-            }));
-        }
-    }
-    
-    // Update configuration
-    orderbook.use_encryption = config.use_encryption;
-    
-    Json(serde_json::json!({
-        "success": true,
-        "message": format!("Orderbook encryption {}", if config.use_encryption { "enabled" } else { "disabled" })
-    }))
-}

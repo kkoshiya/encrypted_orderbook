@@ -2,25 +2,42 @@ use super::orders::{Order, Side, Fill};
 use super::fhe_operations;
 use super::generate_key;
 use std::sync::Arc;
-use tfhe::ClientKey;
+use tfhe::{ClientKey, ServerKey};
 
 pub struct Orderbook {
     pub count: u128,
     pub buy_orders: Vec<Order>,
     pub sell_orders: Vec<Order>,
     pub fills: Vec<Fill>,
+    pub server_key: Option<ServerKey>,
     pub use_encryption: bool,
 }
 
 impl Orderbook {
-    pub fn new() -> Self {
+    pub fn new(server_key: Option<ServerKey>) -> Self {
+        let has_encryption = server_key.is_some();
         Self {
             count: 0,
             buy_orders: Vec::new(),
             sell_orders: Vec::new(),
             fills: Vec::new(),
-            use_encryption: false,
+            server_key,
+            use_encryption: has_encryption,
         }
+    }
+    
+    pub fn is_using_encryption(&self) -> bool {
+        self.use_encryption
+    }
+    
+    pub fn set_use_encryption(&mut self, use_encryption: bool) -> bool {
+        // We can only enable encryption if we have a server key
+        if use_encryption && self.server_key.is_none() {
+            return false;
+        }
+        
+        self.use_encryption = use_encryption;
+        true
     }
     
     pub fn new_encrypted() -> Self {
@@ -29,12 +46,23 @@ impl Orderbook {
             eprintln!("Failed to initialize FHE: {}", e);
         }
         
+        // Load server key
+        let server_key = match generate_key::load_server_key() {
+            Ok(key) => Some(key),
+            Err(e) => {
+                eprintln!("Failed to load server key: {}", e);
+                None
+            }
+        };
+        
+        let has_encryption = server_key.is_some();
         Self {
             count: 0,
             buy_orders: Vec::new(),
             sell_orders: Vec::new(),
             fills: Vec::new(),
-            use_encryption: true,
+            server_key,
+            use_encryption: has_encryption,
         }
     }
 
@@ -94,6 +122,8 @@ impl Orderbook {
             return;
         }
         
+        // First collect all the matches without modifying self
+        let mut matches = Vec::new();
         let mut matched_indices = Vec::new();
         let mut remaining_quantity = buy_order.quantity;
         
@@ -109,8 +139,8 @@ impl Orderbook {
                     let match_quantity = remaining_quantity.min(sell_order.quantity);
                     remaining_quantity -= match_quantity;
                     
-                    // Record the match
-                    self.record_fill(buy_order, sell_order, match_quantity);
+                    // Store the match information
+                    matches.push((buy_order.clone(), sell_order.clone(), match_quantity));
                     
                     // If the sell order is fully matched, mark it for removal
                     if match_quantity == sell_order.quantity {
@@ -130,8 +160,8 @@ impl Orderbook {
                     let match_quantity = remaining_quantity.min(sell_order.quantity);
                     remaining_quantity -= match_quantity;
                     
-                    // Record the match
-                    self.record_fill(buy_order, sell_order, match_quantity);
+                    // Store the match information
+                    matches.push((buy_order.clone(), sell_order.clone(), match_quantity));
                     
                     // If the sell order is fully matched, mark it for removal
                     if match_quantity == sell_order.quantity {
@@ -139,6 +169,11 @@ impl Orderbook {
                     }
                 }
             }
+        }
+        
+        // Now record all the fills
+        for (buy, sell, quantity) in matches {
+            self.record_fill(&buy, &sell, quantity);
         }
         
         // Remove matched orders (in reverse order to maintain indices)
@@ -153,6 +188,8 @@ impl Orderbook {
             return;
         }
         
+        // First collect all the matches without modifying self
+        let mut matches = Vec::new();
         let mut matched_indices = Vec::new();
         let mut remaining_quantity = sell_order.quantity;
         
@@ -168,8 +205,8 @@ impl Orderbook {
                     let match_quantity = remaining_quantity.min(buy_order.quantity);
                     remaining_quantity -= match_quantity;
                     
-                    // Record the match
-                    self.record_fill(buy_order, sell_order, match_quantity);
+                    // Store the match information
+                    matches.push((buy_order.clone(), sell_order.clone(), match_quantity));
                     
                     // If the buy order is fully matched, mark it for removal
                     if match_quantity == buy_order.quantity {
@@ -189,8 +226,8 @@ impl Orderbook {
                     let match_quantity = remaining_quantity.min(buy_order.quantity);
                     remaining_quantity -= match_quantity;
                     
-                    // Record the match
-                    self.record_fill(buy_order, sell_order, match_quantity);
+                    // Store the match information
+                    matches.push((buy_order.clone(), sell_order.clone(), match_quantity));
                     
                     // If the buy order is fully matched, mark it for removal
                     if match_quantity == buy_order.quantity {
@@ -198,6 +235,11 @@ impl Orderbook {
                     }
                 }
             }
+        }
+        
+        // Now record all the fills
+        for (buy, sell, quantity) in matches {
+            self.record_fill(&buy, &sell, quantity);
         }
         
         // Remove matched orders (in reverse order to maintain indices)

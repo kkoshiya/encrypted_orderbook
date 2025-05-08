@@ -158,32 +158,99 @@
     </section>
 
     <section id="demo" class="demo">
-        <h2>Try the Demo</h2>
+        <h2>Live Demo</h2>
         <div class="demo-container">
-            <div class="demo-info">
-                <h3>Experience FHE Orderbook in Action</h3>
-                <p>Try out our demo to see how the encrypted orderbook works. Place orders, view the orderbook, and see the FHE-powered matching in action.</p>
-                <div class="demo-steps">
-                    <div class="demo-step">
-                        <span class="step-marker">1</span>
-                        <p>Start the local server</p>
+            <div class="demo-controls">
+                <div class="config-panel">
+                    <h3>Orderbook Configuration</h3>
+                    <div id="config-status" class="config-status">
+                        <div class="loading">Loading configuration...</div>
                     </div>
-                    <div class="demo-step">
-                        <span class="step-marker">2</span>
-                        <p>Access the demo interface</p>
-                    </div>
-                    <div class="demo-step">
-                        <span class="step-marker">3</span>
-                        <p>Place encrypted orders</p>
+                    <div class="config-actions">
+                        <button id="toggle-encryption" class="config-button">Toggle Encryption</button>
+                        <button id="generate-keys" class="config-button">Generate FHE Keys</button>
                     </div>
                 </div>
-                <div class="demo-buttons">
-                    <a href="#" class="demo-button">Launch Demo</a>
-                    <a href="https://github.com/yourusername/encrypted_orderbook#running-the-demo" class="demo-instructions" target="_blank">View Instructions</a>
+                
+                <div class="order-panel">
+                    <h3>Place an Order</h3>
+                    <div class="order-type-selector">
+                        <label for="order-type">Order Type:</label>
+                        <select id="order-type">
+                            <option value="limit">Limit Order</option>
+                            <option value="market">Market Order</option>
+                        </select>
+                    </div>
+                    
+                    <div id="order-form" class="order-form">
+                        <div class="form-group">
+                            <label for="limit-price">Price:</label>
+                            <input type="number" id="limit-price" min="1" placeholder="Enter price">
+                        </div>
+                        <div class="form-group">
+                            <label for="limit-quantity">Quantity:</label>
+                            <input type="number" id="limit-quantity" min="1" placeholder="Enter quantity">
+                        </div>
+                        <div class="form-group">
+                            <label for="limit-side">Side:</label>
+                            <select id="limit-side">
+                                <option value="buy">Buy</option>
+                                <option value="sell">Sell</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="limit-pubkey">Public Key:</label>
+                            <input type="text" id="limit-pubkey" placeholder="Enter your public key">
+                        </div>
+                        <button id="submit-order" class="submit-button">Place Limit Order</button>
+                    </div>
+                    
+                    <div id="market-order-form" class="order-form" style="display: none;">
+                        <div class="form-group">
+                            <label for="market-quantity">Quantity:</label>
+                            <input type="number" id="market-quantity" min="1" placeholder="Enter quantity">
+                        </div>
+                        <div class="form-group">
+                            <label for="market-side">Side:</label>
+                            <select id="market-side">
+                                <option value="buy">Buy</option>
+                                <option value="sell">Sell</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="market-pubkey">Public Key:</label>
+                            <input type="text" id="market-pubkey" placeholder="Enter your public key">
+                        </div>
+                        <button id="submit-market-order" class="submit-button">Place Market Order</button>
+                    </div>
                 </div>
             </div>
-            <div class="demo-preview">
-                <img src="demo-preview.png" alt="Demo Preview">
+            
+            <div class="orderbook-display">
+                <div class="orderbook-section">
+                    <h3>Current Orderbook</h3>
+                    <div class="orderbook-columns">
+                        <div class="orderbook-column">
+                            <h4>Buy Orders</h4>
+                            <div id="buy-orders" class="orders-list">
+                                <div class="loading">Loading buy orders...</div>
+                            </div>
+                        </div>
+                        <div class="orderbook-column">
+                            <h4>Sell Orders</h4>
+                            <div id="sell-orders" class="orders-list">
+                                <div class="loading">Loading sell orders...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fills-section">
+                    <h3>Recent Fills</h3>
+                    <div id="fills" class="fills-list">
+                        <div class="loading">Loading fills...</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -228,5 +295,6 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="demo.js"></script>
 </body>
 </html>
