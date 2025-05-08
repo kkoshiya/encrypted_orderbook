@@ -9,45 +9,10 @@ use serde::{Deserialize, Serialize};
 use axum::response::IntoResponse;
 mod utils;
 use utils::orderbook::Orderbook;
-use utils::orders::{Order, Side, OrderRequest};
-
+use utils::orders::{Order, Side};
+mod api;
+use api::orders::{get_orders, add_order};
 type AppState = Arc<Mutex<Orderbook>>;
-
-async fn get_orders(
-    state: State<AppState>
-) -> Json<(Vec<Order>, Vec<Order>)> {
-    let orderbook = state.lock().unwrap();
-    Json(orderbook.get_orders())
-}
-
-async fn add_order(
-    state: State<AppState>,
-    Json(req): Json<OrderRequest>,
-) -> impl IntoResponse {
-
-    let side = match req.side.to_lowercase().as_str() {
-        "buy" => Side::Buy,
-        "sell" => Side::Sell,
-        _ => panic!("Invalid side: must be 'buy' or 'sell'"),
-    };
-
-    let mut orderbook = state.lock().unwrap();
-    orderbook.count += 1;
-    let id = orderbook.count;
-    
-    let order = Order::new(
-        id, 
-        req.price, 
-        req.quantity, 
-        side, 
-        req.user_pubkey
-    );
-    
-    orderbook.add_order(order);
-    
-    Json(serde_json::json!({ "success": true, "id": id }))
-}
-
 
 #[tokio::main]
 async fn main() {

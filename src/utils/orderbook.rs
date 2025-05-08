@@ -31,5 +31,9 @@ impl Orderbook {
     pub fn get_orders(&self) -> (Vec<Order>, Vec<Order>) {
         (self.buy_orders.clone(), self.sell_orders.clone())
     }
+
+    pub fn market_buy(&mut self, quantity: u32) {
+        
+    }
         
 }

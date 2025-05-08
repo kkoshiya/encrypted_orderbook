@@ -28,20 +28,4 @@ impl Order {
     }
 }
 
-#[derive(Debug, Clone)]
-pub struct Fill {
-    pub buy_order_id: u128,
-    pub sell_order_id: u128,
-    pub price: u32,
-    pub quantity: u32,
-    pub buyer_pubkey: String,  
-    pub seller_pubkey: String, 
-}
 
-#[derive(Deserialize)]
-pub struct OrderRequest {
-    pub price: u32,
-    pub quantity: u32,
-    pub side: String,
-    pub user_pubkey: String,
-}
