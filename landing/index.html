@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encrypted Orderbook for Solana | FHE-Powered Trading</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="logo.svg" alt="Encrypted Orderbook Logo">
+                <span>FHE Orderbook</span>
+            </div>
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#elizaos">ElizaOS Integration</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="https://github.com/yourusername/encrypted_orderbook" class="github-link" target="_blank">GitHub</a></li>
+            </ul>
+        </nav>
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Privacy-Preserving Trading with <span class="highlight">Fully Homomorphic Encryption</span></h1>
+                <p>An encrypted orderbook for Solana that keeps your order information private while still enabling efficient order matching and execution.</p>
+                <div class="cta-buttons">
+                    <a href="#demo" class="primary-button">Try Demo</a>
+                    <a href="https://github.com/yourusername/encrypted_orderbook" class="secondary-button" target="_blank">View on GitHub</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="hero-image.svg" alt="Encrypted Orderbook Visualization">
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features">
+        <h2>Key Features</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Fully Encrypted Orders</h3>
+                <p>All order information is encrypted using FHE, ensuring your trading strategy remains private.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Solana Integration</h3>
+                <p>Built for the Solana blockchain, leveraging its speed and low transaction costs.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>ElizaOS Action</h3>
+                <p>Seamlessly interact with the orderbook through ElizaOS agents using natural language.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>Order Matching</h3>
+                <p>Efficient order matching algorithm that works directly on encrypted data.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works">
+        <h2>How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Encrypt Your Order</h3>
+                    <p>Your order details (price, quantity) are encrypted using Fully Homomorphic Encryption before leaving your device.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Submit to Orderbook</h3>
+                    <p>The encrypted order is submitted to the orderbook and stored alongside other encrypted orders.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Homomorphic Matching</h3>
+                    <p>The orderbook performs matching operations directly on the encrypted data without ever decrypting it.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Secure Settlement</h3>
+                    <p>When a match is found, the trade is settled on Solana while preserving the privacy of the original orders.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="elizaos" class="elizaos">
+        <h2>ElizaOS Integration</h2>
+        <div class="elizaos-content">
+            <div class="elizaos-info">
+                <h3>Interact with Natural Language</h3>
+                <p>The FHE Orderbook is integrated as an action in ElizaOS, allowing users to interact with the orderbook using natural language through any ElizaOS agent.</p>
+                <div class="elizaos-features">
+                    <div class="elizaos-feature">
+                        <h4>Place Orders</h4>
+                        <p>Simply tell an ElizaOS agent to place a buy or sell order with your desired price and quantity.</p>
+                    </div>
+                    <div class="elizaos-feature">
+                        <h4>View Orderbook</h4>
+                        <p>Ask to see the current state of the orderbook to make informed trading decisions.</p>
+                    </div>
+                    <div class="elizaos-feature">
+                        <h4>Seamless Integration</h4>
+                        <p>Works across all ElizaOS-powered platforms including Discord, Telegram, and web interfaces.</p>
+                    </div>
+                </div>
+                <a href="https://eliza.how/docs" class="learn-more" target="_blank">Learn more about ElizaOS</a>
+            </div>
+            <div class="elizaos-demo">
+                <div class="chat-window">
+                    <div class="chat-header">
+                        <div class="chat-avatar">🤖</div>
+                        <div class="chat-name">ElizaOS Agent</div>
+                    </div>
+                    <div class="chat-messages">
+                        <div class="message user-message">
+                            <p>I want to place a buy order for 5 units at price 100 with my public key abc123</p>
+                        </div>
+                        <div class="message agent-message">
+                            <p>✅ Successfully placed your buy order!</p>
+                            <p>Order ID: 12345<br>
+                            Price: 100<br>
+                            Quantity: 5</p>
+                            <p>Your order has been encrypted and added to the orderbook.</p>
+                        </div>
+                        <div class="message user-message">
+                            <p>Show me the current orderbook</p>
+                        </div>
+                        <div class="message agent-message">
+                            <p>Here are the current orders in the encrypted orderbook:</p>
+                            <p>Buy Orders:<br>
+                            - Price: 105, Quantity: 10<br>
+                            - Price: 102, Quantity: 5<br>
+                            - Price: 100, Quantity: 5</p>
+                            <p>Sell Orders:<br>
+                            - Price: 110, Quantity: 8<br>
+                            - Price: 115, Quantity: 12</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="demo" class="demo">
+        <h2>Try the Demo</h2>
+        <div class="demo-container">
+            <div class="demo-info">
+                <h3>Experience FHE Orderbook in Action</h3>
+                <p>Try out our demo to see how the encrypted orderbook works. Place orders, view the orderbook, and see the FHE-powered matching in action.</p>
+                <div class="demo-steps">
+                    <div class="demo-step">
+                        <span class="step-marker">1</span>
+                        <p>Start the local server</p>
+                    </div>
+                    <div class="demo-step">
+                        <span class="step-marker">2</span>
+                        <p>Access the demo interface</p>
+                    </div>
+                    <div class="demo-step">
+                        <span class="step-marker">3</span>
+                        <p>Place encrypted orders</p>
+                    </div>
+                </div>
+                <div class="demo-buttons">
+                    <a href="#" class="demo-button">Launch Demo</a>
+                    <a href="https://github.com/yourusername/encrypted_orderbook#running-the-demo" class="demo-instructions" target="_blank">View Instructions</a>
+                </div>
+            </div>
+            <div class="demo-preview">
+                <img src="demo-preview.png" alt="Demo Preview">
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="logo.svg" alt="Encrypted Orderbook Logo">
+                <span>FHE Orderbook</span>
+            </div>
+            <div class="footer-links">
+                <div class="footer-section">
+                    <h4>Project</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#elizaos">ElizaOS Integration</a></li>
+                        <li><a href="#demo">Demo</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://github.com/yourusername/encrypted_orderbook" target="_blank">GitHub</a></li>
+                        <li><a href="https://github.com/yourusername/encrypted_orderbook/blob/main/README.md" target="_blank">Documentation</a></li>
+                        <li><a href="https://eliza.how/docs" target="_blank">ElizaOS Docs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="https://twitter.com/yourusername" target="_blank">Twitter</a></li>
+                        <li><a href="https://discord.gg/yourinvite" target="_blank">Discord</a></li>
+                        <li><a href="mailto:contact@example.com">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 FHE Orderbook. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
