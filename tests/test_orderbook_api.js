@@ -55,6 +55,15 @@ async function runTests() {
     console.log('===========================================');
 
     try {
+        // Reset the orderbook state before starting tests
+        console.log('\n📋 Resetting orderbook state');
+        const resetResult = await apiRequest('/reset', 'POST');
+        logTest('Reset orderbook', resetResult.success, resetResult);
+    } catch (error) {
+        console.error('❌ Failed to reset orderbook:', error);
+    }
+
+    try {
         // Test 1: Check current configuration
         console.log('\n📋 Test 1: Checking current configuration');
         const config = await apiRequest('/config');

@@ -16,6 +16,7 @@ use utils::fhe_operations;
 mod api;
 use api::orders::{get_orders, add_order, market_buy, market_sell, get_fills, generate_keys};
 use api::config::{get_config, update_config};
+use api::reset::reset_orderbook;
 type AppState = Arc<Mutex<Orderbook>>;
 
 #[tokio::main]
@@ -57,6 +58,9 @@ async fn main() {
         // Configuration
         .route("/config", get(get_config))
         .route("/config", post(update_config))
+        
+        // Reset
+        .route("/reset", post(reset_orderbook))
         
         .with_state(app_state)
         .layer(cors);
