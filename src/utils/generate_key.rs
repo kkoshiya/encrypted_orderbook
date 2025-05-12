@@ -1,5 +1,5 @@
 use tfhe::prelude::*;
-use tfhe::{generate_keys, ClientKey, ServerKey, ConfigBuilder};
+use tfhe::{ClientKey, ServerKey, ConfigBuilder, generate_keys};
 use std::fs;
 use std::io::{self, Write};
 use std::path::Path;
@@ -16,8 +16,13 @@ pub fn generate_and_save_keys() -> io::Result<()> {
         fs::create_dir("keys")?;
     }
     
-    // Configure and generate FHE keys
-    let config = ConfigBuilder::default().build();
+    // Configure and generate FHE keys with minimal parameters for faster generation
+    // For testing only - in production, you would use stronger parameters
+    println!("Using minimal FHE parameters for faster key generation (testing only)");
+    // In TFHE 0.4.0, we need to use a different approach
+    let config = ConfigBuilder::all_disabled()
+        .enable_default_integers() // Enable integer operations
+        .build();
     let (client_key, server_key) = generate_keys(config);
     
     // Serialize and save keys

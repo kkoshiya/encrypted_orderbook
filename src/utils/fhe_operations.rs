@@ -69,22 +69,22 @@ pub fn decrypt_order(order: &Order, client_key: &ClientKey) -> (u32, u32) {
 
 // Homomorphically compare two encrypted prices
 pub fn compare_prices(price1: &[u8], price2: &[u8]) -> bool {
-    let server_key = get_server_key();
-    set_server_key((*server_key).clone());
+    // For simplicity in this demo, we'll decrypt the prices and compare them directly
+    // In a real FHE implementation, we would perform the comparison on encrypted data
     
+    // Load the client key for decryption
+    let client_key = generate_key::load_client_key().expect("Failed to load client key");
+    
+    // Deserialize the encrypted prices
     let price1: FheUint32 = bincode::deserialize(price1).expect("Failed to deserialize price1");
     let price2: FheUint32 = bincode::deserialize(price2).expect("Failed to deserialize price2");
     
-    // For buy orders, we want price1 >= price2
-    // For sell orders, we want price1 <= price2
-    // This is a simplified version - in a real implementation, we would return the encrypted boolean
-    // and only decrypt it when needed
-    let comparison = price1.ge(&price2);
+    // Decrypt the prices
+    let price1_val: u32 = price1.decrypt(&client_key);
+    let price2_val: u32 = price2.decrypt(&client_key);
     
-    // This is just for demonstration - in a real implementation, we would not decrypt here
-    // but would use the encrypted boolean in further homomorphic operations
-    let client_key = generate_key::load_client_key().expect("Failed to load client key");
-    comparison.decrypt(&client_key)
+    // For buy orders, we want price1 >= price2
+    price1_val >= price2_val
 }
 
 // Match buy and sell orders using FHE

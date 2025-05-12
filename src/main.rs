@@ -61,12 +61,16 @@ async fn main() {
         .with_state(app_state)
         .layer(cors);
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
+    let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
     println!("Server listening on {}", addr);
-    axum::serve(
-        tokio::net::TcpListener::bind(addr).await.unwrap(),
-        app
-    ).await.unwrap();
+    
+    // Bind to the address
+    let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
+    
+    // Run the server
+    axum::Server::from_tcp(listener.into_std().unwrap())
+        .unwrap()
+        .serve(app.into_make_service())
+        .await
+        .unwrap();
 }
-
-
