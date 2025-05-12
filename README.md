@@ -210,12 +210,35 @@ To access the interactive demo interface:
 
 ## ElizaOS Integration
 
-The project includes integration with ElizaOS, allowing users to interact with the orderbook using natural language. The integration is implemented in the `elizaos_integration` directory and provides actions for:
+The project includes integration with ElizaOS, allowing users to interact with the orderbook using natural language. The integration is implemented as an ElizaOS plugin in the `plugin-orderbook` directory and provides actions for:
 
-- Placing orders
-- Checking the orderbook state
-- Viewing fills
-- Managing encryption settings
+- Getting and placing orders (`GET_ORDERS`, `ADD_ORDER`)
+- Executing market orders (`MARKET_BUY`, `MARKET_SELL`)
+- Viewing trade fills (`GET_FILLS`)
+- Managing FHE keys (`GENERATE_KEYS`)
+- Configuring the orderbook (`GET_CONFIG`, `UPDATE_CONFIG`)
+- Resetting the orderbook (`RESET_ORDERBOOK`)
+
+### Using the ElizaOS Plugin
+
+1. Make sure the orderbook server is running:
+   ```bash
+   cargo run
+   ```
+
+2. Start ElizaOS with the plugin:
+   ```bash
+   cd plugin-orderbook
+   elizaos dev
+   ```
+
+3. Interact with the agent using natural language commands like:
+   - "Show me the current orders in the orderbook"
+   - "Add a buy order at price 100 with amount 5"
+   - "Execute a market buy for amount 3"
+   - "Generate FHE keys for the orderbook"
+
+See the plugin's [README.md](./plugin-orderbook/README.md) for more details.
 
 ## Technical Details
 
