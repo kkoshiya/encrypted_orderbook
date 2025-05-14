@@ -1,0 +1,27 @@
+{
+  "name": "encrypted_orderbook",
+  "version": "1.0.0",
+  "description": "## Overview",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node tests/test_orderbook_api.js",
+    "start": "cargo run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kkoshiya/encrypted_orderbook.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kkoshiya/encrypted_orderbook/issues"
+  },
+  "homepage": "https://github.com/kkoshiya/encrypted_orderbook#readme",
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  }
+}
